@@ -1,56 +1,56 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { RenderNote } from "./components/RenderNote";
-import { createRequest } from "./js/createRequest";
+import { RenderRenew } from "./components/RenderRenew";
+import { requestDelete, requestPost } from "./js/createRequest";
 
 const Crud = () => {
   const [notes, setNotes] = useState([]);
+  console.log(notes);
 
   const submit = (event) => {
     event.preventDefault();
     const text = event.target[0].value;
     const form = document.getElementById('form');
-    requestPost(text)
-    requestGet();
+    requestPost(form, text)
+    event.target[0].value = ''
   };
  
   const requestDelete = (id) => {
-    let formData = new FormData()
     let request = new XMLHttpRequest();
     request.open('DELETE', `http://localhost:7777/notes/${id}`);
-    request.responseType = "json";
-    request.send(formData);
+    request.send();
     request.onreadystatechange = function () {
       if (request.readyState === request.DONE) {
-        console.log('deleted');
+        requestGet()
       }
     };
   }
 
-  const requestPost = (text) => {
-    const form = document.getElementById('form');
+  const requestPost = (form, text) => {
     let formData = new FormData(form);
-    formData.append('text', text);
+    console.log(formData);
+    console.log(text)
+    formData.append("text", text);
+    console.log(formData.has('text'));
     let request = new XMLHttpRequest();
     request.open('POST', "http://localhost:7777/notes");
     request.send(formData);
     request.onreadystatechange = function () {
       if (request.readyState === request.DONE) {
-        console.log(request.response);
-        setNotes(request.response);
+        requestGet()
       }
     }
   }
 
   const requestGet = () => {
-    let formData = new FormData()
     let request = new XMLHttpRequest();
     request.open("GET", "http://localhost:7777/notes");
     request.responseType = "json";
-    request.send(formData);
+    request.send();
     request.onreadystatechange = function () {
       if (request.readyState === request.DONE) {
-        console.log(request.response);
+        console.log(`GET ${request.response}`);
         setNotes(request.response);
       }
     };
@@ -64,11 +64,12 @@ const Crud = () => {
 
   return (
     <div className="wrapper">
-      <RenderNote notes={notes} requestDelete={requestDelete} />
+      <RenderRenew requestGet={requestGet} />
+      <RenderNote notes={notes} requestDelete={requestDelete} requestGet={requestGet}/>
       <form id="form" onSubmit={submit} className="form">
         <label>
           <p>New Note</p>
-          <textarea className="textarea"></textarea>
+          <input className="textarea"></input>
         </label>
         <button className="submit-button">OK</button>
       </form>

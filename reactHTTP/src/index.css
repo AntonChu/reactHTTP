@@ -72,7 +72,7 @@ button:focus-visible {
   width: 1200px;
   min-height: 600px;
   background-color: rgb(141, 141, 141);
-
+  position: relative;
 }
 
 .form {
@@ -105,6 +105,8 @@ button:focus-visible {
 .note {
   width: 45%;
   position: relative;
+  border: 1px solid gray;
+  margin: 5px 10px;
 }
 
 .note-close {
@@ -119,4 +121,20 @@ button:focus-visible {
   display: flex; 
   align-items: center;
   justify-content: center;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.renew-button {
+  width: 40px;
+  height: 40px;
+  background-color: green;
+  color: white;
+  border-radius: 50%;
+  margin: 0 30px;
 }

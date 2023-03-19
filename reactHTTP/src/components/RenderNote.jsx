@@ -1,5 +1,5 @@
-export const RenderNote = ({ notes, requestDelete }) => {
-  console.log(notes);
+export const RenderNote = ({ notes, requestDelete, requestGet }) => {
+
   return (
     <div className="notes-container">
       {notes.map((el) => {
@@ -9,7 +9,9 @@ export const RenderNote = ({ notes, requestDelete }) => {
               {el.id}
               {el.text}
             </p>
-            <button onClick={requestDelete(el.id)} className="note-close">X</button>
+            <button onClick={() => {
+              requestDelete(el.id);
+            }} className="note-close">X</button>
           </div>
         );
       })}
